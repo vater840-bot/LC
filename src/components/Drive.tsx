@@ -896,9 +896,11 @@ export function Drive({ email, name }: { email: string; name: string }) {
             <button
               onClick={() => setDialog({ t: "newFolder" })}
               disabled={view.type === "recent" || searching}
-              className="hidden items-center gap-2 rounded-lg border border-line px-3 py-2 text-sm font-medium hover:bg-surface disabled:opacity-40 sm:flex"
+              aria-label="Новая папка"
+              title="Новая папка"
+              className="flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-sm font-medium hover:bg-surface disabled:opacity-40"
             >
-              <FolderPlus className="h-4 w-4" /> Папка
+              <FolderPlus className="h-4 w-4" /> <span className="hidden sm:inline">Папка</span>
             </button>
             <button
               onClick={() => fileInput.current?.click()}
