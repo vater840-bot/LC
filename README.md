@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LC — Leadership Council Cloud
 
-## Getting Started
+Общее облачное хранилище Совета лидеров. Next.js 16 · TypeScript · Tailwind CSS 4 · Supabase (Auth, Postgres, Storage, Realtime) · Vercel.
 
-First, run the development server:
+## Возможности
+Загрузка фото, видео и документов (drag & drop, прогресс), предпросмотр (фото, видео, аудио, PDF, текст, Word/Excel/PowerPoint), скачивание, папки (создание, переименование, перемещение, удаление), поиск по названию, сортировка по дате/названию/типу, «Недавно загруженные», мгновенная синхронизация между участниками (Realtime). Стартовые папки: General, Events, Photography, Videos.
 
+## Запуск
 ```bash
+cp .env.example .env.local   # вставьте URL и publishable key из Supabase → Settings → API
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Безопасность
+- Ключ `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` публичный по дизайну. Доступ ограничивают RLS-политики. Секретный `service_role` ключ в проекте не используется и не должен попадать в код.
+- RLS включён на `profiles`, `folders`, `files` и `storage.objects`. Бакет `lc-files` приватный, доступ только у авторизованных участников. Файлы отдаются по временным signed URL.
+- Системные папки (General, Events, Photography, Videos) нельзя переименовать, переместить или удалить.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Публикация на Vercel
+1. Загрузите код в GitHub-репозиторий.
+2. Vercel → Add New Project → импорт репозитория.
+3. Environment Variables: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+4. После деплоя в Supabase → Authentication → URL Configuration укажите Site URL и Redirect URL `https://<ваш-домен>/auth/callback`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Ограничения
+- На бесплатном тарифе Supabase максимальный размер файла — 50 МБ, хранилище — 1 ГБ.
+- Предпросмотр Word/Excel/PowerPoint идёт через Microsoft Office Online Viewer (ему передаётся временная ссылка на файл).
+- Папки целиком скачать нельзя, только отдельные файлы.
