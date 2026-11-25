@@ -1,2 +1,2 @@
 # LC
-LC 
+NEXT_PUBLIC_SUPABASE_URL=https://bzyrkfssnncciyrfplab.supabase.co и NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_NUqfCNK2dM0NvbFv9LHPwQ_EbEujBvg.
